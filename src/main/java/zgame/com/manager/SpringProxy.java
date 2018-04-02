@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContextAware;
 
 public class SpringProxy implements ApplicationContextAware {
 
-	private static ApplicationContext applicationContext;
+	public static ApplicationContext applicationContext;
 
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		SpringProxy.applicationContext = applicationContext;

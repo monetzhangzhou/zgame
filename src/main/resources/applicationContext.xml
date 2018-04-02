@@ -32,4 +32,5 @@
 		</property>
 	</bean>
 	<bean id="springProxy" class="zgame.com.manager.SpringProxy"></bean>
+	<bean id="gameServer" class="zgame.zgame.GameServer"></bean>
 </beans>

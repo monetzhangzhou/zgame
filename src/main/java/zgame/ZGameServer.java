@@ -12,6 +12,7 @@ public class ZGameServer {
 
 	public static void main(String[] args) {
 		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+
 	}
 
 }
