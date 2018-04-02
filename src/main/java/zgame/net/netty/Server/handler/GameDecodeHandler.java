@@ -1,5 +1,6 @@
 package zgame.net.netty.Server.handler;
 
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 
 /**
@@ -9,5 +10,11 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 public class GameDecodeHandler extends ChannelInboundHandlerAdapter {
 
 	private static final int MAX_LENGTH = 2048;
+
+	@Override
+	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+
+		ctx.fireChannelRead(msg);
+	}
 
 }
