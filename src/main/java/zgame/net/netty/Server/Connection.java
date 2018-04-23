@@ -3,11 +3,17 @@ package zgame.net.netty.Server;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
+import io.netty.channel.Channel;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import zgame.net.message.BasePacket;
+
 /**
  * @author zhangzhou
  * @date 2018-01-02 socket连接
  */
 public class Connection {
+	private final Channel channel;
 	// 是否被锁住使用状态
 	private AtomicBoolean lock = new AtomicBoolean();
 	// 最近一次读socket的时间或者最近一次写socket的时间
@@ -19,11 +25,14 @@ public class Connection {
 	private final int firstIdle;
 	private final int idle;
 
-	public Connection(int firstIdle, int idle, Object id) {
+	private int threadId;
+
+	public Connection(int firstIdle, int idle, Channel channel) {
+		this.channel = channel;
 		this.firstIdle = firstIdle;
 		this.idle = idle;
 		this.lastReadOrWriteTime.set(System.currentTimeMillis());
-		this.id = id;
+		this.id = channel;
 	}
 
 	public AtomicBoolean getLock() {
@@ -66,4 +75,42 @@ public class Connection {
 		return idle;
 	}
 
+	public int getThreadId() {
+		return threadId;
+	}
+
+	public void setThreadId(int threadId) {
+		this.threadId = threadId;
+	}
+
+	public void markReadOrWriteTimestamp() {
+		this.lastReadOrWriteTime.set(System.currentTimeMillis());
+	}
+
+	public boolean isActive() {
+		return channel != null && channel.isActive();
+	}
+
+	public void close() {
+		if (channel != null && channel.isActive()) {
+			channel.close();
+		}
+	}
+
+	protected void _writeAndFlush(BasePacket packet) {
+		if (channel != null && channel.isActive())
+			channel.writeAndFlush(packet);
+	}
+
+	public void closeAfterWriteAndFlush(BasePacket packet) {
+		if (channel != null && channel.isActive()) {
+			ChannelFuture future = channel.writeAndFlush(packet);
+			future.addListener(new ChannelFutureListener() {
+				@Override
+				public void operationComplete(ChannelFuture future) throws Exception {
+					future.channel().close();
+				}
+			});
+		}
+	}
 }

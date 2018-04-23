@@ -11,13 +11,20 @@ import zgame.net.netty.Server.Connection;
 
 public class ConnectionManager {
 
-	private ConcurrentHashMap<Object, Connection> connectionMap = new ConcurrentHashMap<Object, Connection>();
+	private static ConcurrentHashMap<Object, Connection> connectionMap = new ConcurrentHashMap<Object, Connection>();
 
-	public Connection getConnection(Object id) {
-		return this.connectionMap.get(id);
+	public static Connection getConnection(Object id) {
+		return connectionMap.get(id);
 	}
 
-	public Connection addConnection(Object id, Connection connection) {
-		return this.connectionMap.put(id, connection);
+	public static Connection addConnection(Object id, Connection connection) {
+		if (connectionMap.containsKey(id)) {
+			return getConnection(id);
+		}
+		return connectionMap.put(id, connection);
+	}
+
+	public static void onDisconnect(Connection conn) {
+		connectionMap.remove(conn.getId());
 	}
 }

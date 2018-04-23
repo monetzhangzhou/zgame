@@ -11,7 +11,7 @@
 							http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd 
 	">
 	<context:component-scan base-package="zgame"></context:component-scan>
-	<context:property-placeholder location ="classpath:db.properties"/>
+	<context:property-placeholder location ="classpath:db.properties,network.properties"/>
 	<bean id="gameDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"> 
 		<property name="driverClassName" value="com.mysql.jdbc.driver"></property>
 		<property name="url" value="${game.jdbc.url}"></property>
@@ -32,5 +32,12 @@
 		</property>
 	</bean>
 	<bean id="springProxy" class="zgame.com.manager.SpringProxy"></bean>
-	<bean id="gameServer" class="zgame.zgame.GameServer"></bean>
+	<bean id="gameServer" class="zgame.zgame.GameServer">
+		<constructor-arg>
+			<props>
+				<prop key="ip">${ip}</prop>
+				<prop key="port">${port}</prop>
+			</props>
+		</constructor-arg>
+	</bean>
 </beans>

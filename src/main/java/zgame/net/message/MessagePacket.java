@@ -7,8 +7,8 @@ package zgame.net.message;
  */
 public class MessagePacket extends AbstractTcpPacket {
 
-	protected MessagePacket(byte[] bytes) {
-		super(bytes);
+	public MessagePacket(int protocol, byte[] bytes) {
+		super(protocol, bytes);
 	}
 
 }

@@ -1,6 +1,7 @@
 package zgame.zgame;
 
-import io.netty.channel.ChannelHandler;
+import java.util.Properties;
+
 import zgame.net.netty.Server.TcpServer.TcpServer;
 
 /**
@@ -10,9 +11,8 @@ import zgame.net.netty.Server.TcpServer.TcpServer;
  */
 public class GameServer extends TcpServer {
 
-	public GameServer(ChannelHandler childHandler, String inetHost, int inetPort) {
-		super(childHandler, inetHost, inetPort);
-		// TODO Auto-generated constructor stub
+	public GameServer(Properties netWorkProperties) {
+		super(netWorkProperties);
 	}
 
 }

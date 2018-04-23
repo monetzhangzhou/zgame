@@ -1,17 +1,22 @@
 package zgame.net.message;
 
+import zgame.net.netty.Server.Connection;
+
 /**
  * @author zhangzhou
  * @date 2018-04-02 消息基类
  */
-public class BasePacket {
+public abstract class BasePacket {
 	/* 头 */
 	public static final byte HEAD = 0x7c;
 
 	/* 内容 */
 	private final byte[] bytes;
+	/* 协议号 */
+	private final int protocol;
 
-	protected BasePacket(byte[] bytes) {
+	protected BasePacket(int protocol, byte[] bytes) {
+		this.protocol = protocol;
 		this.bytes = bytes;
 	}
 
@@ -19,4 +24,9 @@ public class BasePacket {
 		return bytes;
 	}
 
+	public int getProtocol() {
+		return protocol;
+	}
+
+	public abstract void setConnection(Connection connection);
 }

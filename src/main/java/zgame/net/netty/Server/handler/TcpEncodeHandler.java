@@ -4,15 +4,15 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 import io.netty.channel.ChannelPromise;
-import io.netty.handler.codec.http.websocketx.BinaryWebSocketFrame;
 import zgame.net.message.BasePacket;
 import zgame.net.message.MessagePacket;
 
 /**
- * @author zhangzhou
- * @date 2018-04-02 消息编码
+ * Tcp编码器
+ * 
+ * @author zhangzhou 2018年4月23日
  */
-public class GameEncodeHandler extends ChannelOutboundHandlerAdapter {
+public class TcpEncodeHandler extends ChannelOutboundHandlerAdapter {
 	@Override
 	public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
 		if (msg instanceof MessagePacket) {
@@ -23,13 +23,12 @@ public class GameEncodeHandler extends ChannelOutboundHandlerAdapter {
 				buf.writeInt(packet.getProtocol());
 				buf.writeShort(packet.getBytes().length);
 				buf.writeBytes(packet.getBytes());
-				BinaryWebSocketFrame frame = new BinaryWebSocketFrame(buf);
-				ctx.writeAndFlush(frame);
+				ctx.writeAndFlush(buf);
 				return;
 			} finally {
 				buf.release();
 			}
 		}
-		ctx.writeAndFlush(msg);
+		super.write(ctx, msg, promise);
 	}
 }

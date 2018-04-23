@@ -2,6 +2,8 @@ package zgame.net.message;
 
 import java.net.InetSocketAddress;
 
+import zgame.net.netty.Server.Connection;
+
 /**
  * udp消息包
  * 
@@ -13,8 +15,8 @@ public class UdpPacket extends AbstractUdpPacket {
 
 	private InetSocketAddress clientAddr;
 
-	protected UdpPacket(byte[] bytes) {
-		super(bytes);
+	protected UdpPacket(int protocol, byte[] bytes) {
+		super(protocol, bytes);
 	}
 
 	public InetSocketAddress getClientAddr() {
@@ -23,6 +25,12 @@ public class UdpPacket extends AbstractUdpPacket {
 
 	public void setClientAddr(InetSocketAddress clientAddr) {
 		this.clientAddr = clientAddr;
+	}
+
+	@Override
+	public void setConnection(Connection connection) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

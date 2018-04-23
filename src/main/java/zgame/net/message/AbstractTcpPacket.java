@@ -13,14 +13,15 @@ public abstract class AbstractTcpPacket extends BasePacket {
 
 	private Connection connection;
 
-	protected AbstractTcpPacket(byte[] bytes) {
-		super(bytes);
+	protected AbstractTcpPacket(int protocol, byte[] bytes) {
+		super(protocol, bytes);
 	}
 
 	public Connection getConnection() {
 		return connection;
 	}
 
+	@Override
 	public void setConnection(Connection connection) {
 		this.connection = connection;
 	}

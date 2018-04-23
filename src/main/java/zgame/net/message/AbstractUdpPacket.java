@@ -9,8 +9,8 @@ package zgame.net.message;
  */
 public abstract class AbstractUdpPacket extends BasePacket {
 
-	protected AbstractUdpPacket(byte[] bytes) {
-		super(bytes);
+	protected AbstractUdpPacket(int protocol, byte[] bytes) {
+		super(protocol, bytes);
 	}
 
 }
