@@ -33,4 +33,10 @@ public class UdpPacket extends AbstractUdpPacket {
 
 	}
 
+	@Override
+	public Connection getConnection() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

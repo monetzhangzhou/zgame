@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import zgame.net.message.BasePacket;
-import zgame.net.message.MessagePacket;
 import zgame.net.netty.Server.dispatcher.executor.ExecutorManager;
 import zgame.net.netty.manager.MessageManager;
 import zgame.net.netty.manager.SessionManager;
@@ -29,11 +28,10 @@ public class MessagePacketDispatcher extends PacketDispatcher {
 
 	@Override
 	public <T extends BasePacket> void dispatch(T packet) {
-		MessagePacket message = (MessagePacket) packet;
-		long playerId = sessionManager.getPlayerId(message.getConnection());
+		long playerId = sessionManager.getPlayerId(packet.getConnection());
 		int threadId = 0;
 		if (0 < playerId) {
-			threadId = message.getConnection().getThreadId();
+			threadId = packet.getConnection().getThreadId();
 		}
 		ExecutorService executor = executorManager.getExecutorService(threadId);
 		executor.execute(new MessageTask(packet, messageManager));

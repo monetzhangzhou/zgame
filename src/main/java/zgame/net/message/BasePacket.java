@@ -29,4 +29,6 @@ public abstract class BasePacket {
 	}
 
 	public abstract void setConnection(Connection connection);
+
+	public abstract Connection getConnection();
 }
